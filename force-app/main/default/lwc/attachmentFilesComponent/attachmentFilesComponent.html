@@ -1,0 +1,48 @@
+<template>
+    <lightning-card icon-name="standard:attach" style='--slds-c-card-color-background:#F3F2F2;' class="slds-card slds-card_boundary slds-grid slds-grid--vertical">
+        <h1 slot="title">
+            <a style="color:black;" onclick={navigateToNotesAttach} data-id={recordId}>
+                <template if:true={showLimitExceededInfo}>
+                    Attachments & Files&nbsp;({attachRecordCount}+)
+                </template>
+                <template if:false={showLimitExceededInfo}>
+                    Attachments & Files&nbsp;({attachRecordCount})
+                </template>
+            </a>
+        </h1>
+        <div slot="actions">
+            <lightning-file-upload
+            label="Upload Files"
+            name="fileUploader"
+            record-id={recordId}
+            onuploadfinished={handleUploadFinished}
+            multiple >
+            </lightning-file-upload>
+            
+        </div>
+        <template if:true={showAttachment}>
+            <div id="orderEntries" class="slds-scrollable_x">
+                </br>
+                <div class="slds-border_top">
+                    <lightning-datatable 
+                            key-field="id" 
+                            data={attachmentList} 
+                            columns={columns} 
+                            hide-checkbox-column
+                            min-column-width="180" 
+                            onrowaction={handleRowAction}>
+                    </lightning-datatable>
+                </div>
+            </div>
+            <div slot="footer">
+                <a onclick={navigateToNotesAttach}>View All</a>
+            </div>
+        </template>
+
+    </lightning-card>
+    
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="loading" variant="brand" size="small">
+        </lightning-spinner>
+    </template>
+</template>
